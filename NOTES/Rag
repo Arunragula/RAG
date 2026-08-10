@@ -1,0 +1,78 @@
+What is RAG?
+
+Imagine you have an LLM like ChatGPT.
+
+You ask:
+
+"What is the leave policy in my  employee handbook?"
+
+The LLM doesn't know, because:
+
+That handbook is not part of its training data.
+It cannot magically read files on your computer.
+It may guess or hallucinate.
+
+RAG solves this problem.
+
+Instead of relying only on what the LLM already knows, we first retrieve relevant information from your own documents and then provide that information to the LLM before it generates an answer.
+
+Simple Pipeline
+User Question
+      │
+      ▼
+Retrieve relevant documents
+      │
+      ▼
+Attach retrieved context
+      │
+      ▼
+LLM generates answer
+      │
+      ▼
+Answer grounded in your documents
+
+So the LLM is no longer answering from memory alone—it is answering using your data.
+
+Why RAG?
+
+Suppose your desktop contains:
+
+Offer_Letter.pdf
+Salary.xlsx
+FastAPI_Notes.pdf
+Docker_Guide.pdf
+
+You ask:
+
+"What salary is mentioned in my offer letter?"
+
+Without RAG:
+
+LLM
+
+↓
+
+"I don't know."
+
+or it may invent an answer.
+
+With RAG:
+
+Question
+
+↓
+
+Search Offer_Letter.pdf
+
+↓
+
+Retrieve relevant paragraphs
+
+↓
+
+LLM reads them
+
+↓
+
+Correct answer
+
