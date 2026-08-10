@@ -1,0 +1,375 @@
+what is an embedding model?
+
+You already know:
+
+Text
+
+↓
+
+Embedding Model
+
+↓
+
+Vector
+
+
+1. BERT
+
+Developed by Google.
+
+Example:
+
+"FastAPI is amazing."
+
+↓
+
+BERT
+
+↓
+
+[0.12, -0.45, 0.67, ...]
+Advantages
+Very accurate
+Understands context
+Changed NLP forever
+Disadvantages
+Large
+Slower
+Not the best choice today for semantic search
+2. Sentence Transformers 
+
+Built on top of BERT.
+
+Instead of embedding individual words or tokens, it is optimized to create embeddings for:
+
+Sentences
+Paragraphs
+Small documents
+
+Example:
+
+"What is FastAPI?"
+
+↓
+
+Sentence Transformer
+
+↓
+
+768-dimensional vector
+
+This is one of the most common choices for RAG.
+
+3. BGE (BAAI General Embedding)
+
+Popular production model.
+
+Advantages:
+
+Excellent retrieval quality
+Fast
+Open source
+
+Many companies use BGE for RAG.
+
+4. Jina Embeddings
+
+Designed specifically for:
+
+Search
+Retrieval
+RAG
+
+Very good multilingual support.
+
+5. Nomic Embed
+
+Open source.
+
+Advantages:
+
+Free
+High quality
+Good for local AI
+
+Often paired with Ollama.
+
+6. OpenAI Embeddings
+
+Instead of running locally:
+
+Text
+
+↓
+
+OpenAI API
+
+↓
+
+Vector
+
+Advantages:
+
+Excellent quality
+No setup
+
+Disadvantages:
+
+Paid
+Internet required
+Word vs Sentence vs Paragraph
+
+This is the part you asked about.
+
+Word Embeddings (Older)
+
+Examples:
+
+Word2Vec
+GloVe
+FastText
+
+One word → One vector
+
+King
+
+↓
+
+Vector
+
+Problem:
+
+The word "bank" always has the same vector.
+
+River bank
+
+Bank account
+
+Same embedding.
+
+No context.
+
+Contextual Embeddings
+
+Models like:
+
+BERT
+Sentence Transformers
+BGE
+
+They understand context.
+
+River bank
+
+↓
+
+Vector A
+Bank account
+
+↓
+
+Vector B
+
+Different vectors.
+
+That's much better.
+
+Sentence Embeddings 
+
+Example:
+
+I purchased a car.
+
+↓
+
+Vector
+I bought an automobile.
+
+↓
+
+Nearly identical vector
+
+This is why semantic search works.
+
+Paragraph Embeddings
+Three paragraphs
+
+↓
+
+One embedding
+
+Useful when your chunks are paragraphs instead of sentences.
+
+
+Types of Embedding Models
+
+There are three generations.
+
+Generation 1: Word Embeddings
+
+Examples:
+
+Word2Vec
+GloVe
+FastText
+
+Input:
+
+Apple
+
+Output:
+
+Vector
+
+Problem:
+
+The word Apple always has one vector.
+
+Example:
+
+Apple is a fruit.
+Apple released a new iPhone.
+
+Both use the same word embedding.
+
+The model cannot tell whether "Apple" means the fruit or the company.
+
+This is called context-independent embeddings.
+
+Generation 2: Contextual Embeddings
+
+Example:
+
+BERT
+
+Now:
+
+Apple is a fruit.
+
+↓
+
+Vector A
+
+Apple released iPhone.
+
+↓
+
+Vector B
+
+Different vectors because BERT understands context.
+
+Generation 3: Sentence Embeddings 
+
+Examples:
+
+Sentence Transformers
+BGE
+OpenAI Embeddings
+Jina
+Nomic
+
+Instead of embedding one word, they embed an entire sentence or chunk.
+
+Example:
+
+I bought a car.
+
+↓
+
+Vector
+
+I purchased an automobile.
+
+↓
+
+Nearly the same vector.
+
+Perfect for RAG.
+
+Why Word2Vec Is Bad for RAG
+
+Suppose your PDF contains:
+
+FastAPI supports Dependency Injection.
+
+User asks:
+
+How does FastAPI inject dependencies?
+
+Word2Vec only compares individual words.
+
+It may miss:
+
+supports
+
+vs
+
+inject
+
+Sentence embeddings compare meaning, not just words.
+
+Popular Embedding Models
+1. Sentence Transformers 
+
+Library:
+
+from sentence_transformers import SentenceTransformer
+
+Advantages:
+
+Easy
+Free
+Local
+Great for learning
+Works with ChromaDB
+
+We'll use this first.
+
+2. BGE
+
+Developed by:
+
+BAAI
+
+Advantages:
+
+Better retrieval quality
+Fast
+Open source
+
+Many production RAG systems use BGE.
+
+3. OpenAI Embeddings
+
+Example:
+
+text-embedding-3-small
+
+text-embedding-3-large
+
+Advantages:
+
+Excellent quality
+Cloud API
+
+Disadvantages:
+
+Paid
+Internet required
+4. Nomic Embed
+
+Advantages:
+
+Local
+Free
+High quality
+
+Very popular with Ollama.
+
+5. Jina Embeddings
+
+Designed mainly for:
+
+Retrieval
+Search
+Multilingual applications
