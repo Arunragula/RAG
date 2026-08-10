@@ -1,0 +1,151 @@
+A vector database is a database specially designed to store:
+
+Embedding Vector+Original Text+Metadata
+
+For every chunk, it stores something like:
+
+Chunk:
+"FastAPI supports Dependency Injection."
+
+Vector:
+[0.23, 0.76, -0.45, ...]
+
+Metadata:
+{
+    file_name: "FastAPI.pdf",
+    page: 42,
+    author: "Arun",
+    topic: "Dependency Injection"
+}
+
+So unlike FAISS, it doesn't store only vectors.
+
+It stores everything related to the chunk.
+
+Popular Vector Databases
+1. FAISS
+
+Type:
+
+✅ Library
+
+Pros:
+
+Very fast
+Local
+Free
+Easy to learn
+
+Cons:
+
+Limited metadata support
+No server
+No authentication
+Not ideal for large production systems
+
+Use for:
+
+Learning
+Desktop apps
+Local RAG
+2. ChromaDB ⭐⭐⭐⭐⭐
+
+Type:
+
+✅ Open-source Vector Database
+
+Pros:
+
+Easy to use
+Stores vectors
+Stores metadata
+Stores documents
+Persistent storage
+Perfect for beginners
+
+Example:
+
+collection.add(
+
+documents=[],
+
+embeddings=[],
+
+metadatas=[],
+
+ids=[]
+)
+
+This is why most LangChain tutorials start with ChromaDB.
+
+3. Pinecone
+
+Type:
+
+✅ Cloud Vector Database
+
+Pros:
+
+Fully managed
+Scales to millions of vectors
+Authentication
+High availability
+Production ready
+
+Cons:
+
+Paid after free tier
+
+Companies use it because they don't have to manage servers.
+
+4. Qdrant
+
+Very popular today.
+
+Features:
+
+Metadata filtering
+REST API
+Docker support
+Cloud
+Fast
+
+Many startups use Qdrant.
+
+5. Milvus
+
+Designed for:
+
+Billions of vectors
+Large AI applications
+Distributed systems
+
+Common in enterprise environments.
+
+6. Weaviate
+
+Adds:
+
+Semantic search
+Hybrid search
+Graph-like relationships
+APIs
+
+Often used in enterprise knowledge systems.
+
+Why We'll Learn ChromaDB
+
+Because it is the best bridge between learning and production.
+
+It teaches:
+
+Collections
+Documents
+Embeddings
+Metadata
+Searching
+Filtering
+
+Later, if you switch to Pinecone or Qdrant, 90% of the concepts remain the same.
+
+Only the API changes.
