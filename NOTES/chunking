@@ -1,0 +1,133 @@
+Suppose you have a 500-page PDF.
+
+Example:
+
+Python_Book.pdf
+
+500 Pages
+
+Question:
+
+"What is Dependency Injection in FastAPI?"
+
+Should we convert the entire PDF into one embedding?
+
+Option 1 — One Embedding for Entire PDF 
+500 Pages
+
+↓
+
+One Vector
+
+Problem:
+
+That one vector represents:
+
+Python basics
+OOP
+SQL
+FastAPI
+Docker
+Testing
+
+Everything is mixed together.
+
+When you search:
+
+Dependency Injection
+
+The embedding is too general.
+
+The retriever may not find the correct section.
+
+A chunk is simply:
+
+A small piece of a larger document.
+
+Example:
+
+Document:
+
+FastAPI supports asynchronous programming.
+
+Dependency Injection allows reusable logic.
+
+Middleware executes before and after requests.
+
+JWT provides authentication.
+
+Chunking might create:
+
+Chunk 1
+
+FastAPI supports asynchronous programming.
+Chunk 2
+
+Dependency Injection allows reusable logic.
+Chunk 3
+
+Middleware executes before and after requests.
+
+                 Chunk Overlap
+
+Now another problem.
+
+Suppose your document says:
+
+FastAPI supports asynchronous programming.
+
+Dependency Injection helps code reuse.
+
+Middleware runs before and after requests.
+
+Suppose chunk size is:
+
+2 sentences
+
+Without overlap:
+
+Chunk 1
+
+FastAPI supports asynchronous programming.
+
+Dependency Injection helps code reuse.
+Chunk 2
+
+Middleware runs before and after requests.
+
+Now imagine an important explanation starts at the end of Chunk 1 and continues into Chunk 2.
+
+We lose context.
+
+
+Solution: Overlap
+
+Instead of:
+
+Chunk 1
+
+Sentence 1
+
+Sentence 2
+Chunk 2
+
+Sentence 3
+
+We do:
+
+Chunk 1
+
+Sentence 1
+
+Sentence 2
+Chunk 2
+
+Sentence 2
+
+Sentence 3
+
+Notice:
+
+Sentence 2 appears in both chunks.
+
+This is called chunk overlap.
