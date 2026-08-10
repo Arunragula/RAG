@@ -1,0 +1,82 @@
+What is Retrieval?
+
+Retrieval is the process of finding the most relevant chunks from the vector database based
+ on the user's question.
+
+ Think of it like Google Search.
+
+You type:
+
+"FastAPI async"
+
+Google doesn't show the entire internet.
+
+It retrieves the most relevant web pages.
+
+RAG does the same thing.
+
+                       RAG Pipeline
+
+                       User Question
+
+                            ↓
+
+                            Embedding Model
+
+                            ↓
+
+                            Question Vector
+
+                            ↓
+
+                            Retriever
+
+                            ↓
+
+                            FAISS
+
+                            ↓
+
+                            Top Matching Chunks
+
+                            ↓
+
+                            LLM
+
+                            ↓
+
+                            Final Answer
+
+
+Notice:
+
+The Retriever sits between the embedding model and the LLM.
+
+Its job is:
+
+Find the best chunks.
+
+Top-K Retrieval
+
+This is extremely important.
+
+Suppose FAISS gives these similarity scores:
+
+| Chunk   | Cosine Score |
+| ------- | -----------: |
+| Chunk 5 |         0.96 |
+| Chunk 8 |         0.94 |
+| Chunk 2 |         0.92 |
+| Chunk 1 |         0.74 |
+| Chunk 9 |         0.62 |
+
+
+Similarity Search vs Hybrid vs Reranking
+
+| Technique         | Purpose                                                                            |
+| ----------------- | ---------------------------------------------------------------------------------- |
+| Similarity Search | Finds semantically similar chunks using embeddings and cosine similarity.          |
+| Hybrid Search     | Combines semantic search with keyword search to improve retrieval.                 |
+| Reranking         | Reorders the retrieved chunks so the most relevant ones are sent first to the LLM. |
+
+
