@@ -1,0 +1,75 @@
+Suppose  vector database contains 1 million document vectors.
+
+A user asks:
+
+How does FastAPI async work?
+
+The embedding model converts it into:
+
+Question Vector
+
+[0.12, 0.44, 0.78]
+
+Your vector database contains:
+
+Document A
+
+[0.13, 0.45, 0.79]
+Document B
+
+[-0.82, 0.12, -0.56]
+
+Now the question is:
+
+How does FAISS decide which document is most similar?
+
+It calculates the cosine similarity between the query vector and every document vector.
+
+The document with the highest cosine similarity is considered the most relevant.
+
+Instead of comparing the lengths of the arrows, cosine similarity compares their directions.
+
+If two vectors point in almost the same direction:
+
+They have similar meaning.
+
+If they point in opposite directions:
+
+They have very different meanings.
+
+Range
+
+Cosine similarity is always between:
+
+| Score | Meaning                  |
+| ----- | ------------------------ |
+| +1    | Almost identical meaning |
+| 0.8   | Very similar             |
+| 0.5   | Somewhat related         |
+| 0     | Unrelated                |
+| -1    | Opposite direction       |
+
+
+Why Not Euclidean Distance?
+
+Suppose:
+
+Document A
+
+[1,1]
+
+Document B
+
+[100,100]
+
+The vectors are very different in length.
+
+But they point in exactly the same direction.
+
+Their meaning is likely very similar.
+
+Cosine similarity captures this.
+
+Euclidean distance focuses on absolute distance instead.
+
+For semantic search, direction (meaning) is usually more important than magnitude.
