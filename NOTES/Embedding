@@ -1,0 +1,83 @@
+The Problem
+
+Imagine you have these two sentences:
+
+Sentence A:
+"I know Python programming."
+
+Sentence B:
+"I am a Python developer."
+
+A human immediately knows they mean almost the same thing.
+
+But a computer sees:
+
+Python
+Programming
+
+vs
+
+Python
+Developer
+
+The words are different.
+
+If the computer only compared words, it might think they're unrelated.
+
+So how do we make a computer understand meaning instead of just words?
+
+The Solution: Embeddings
+
+An embedding is a numerical (vector) representation of text that captures its semantic meaning.
+
+Instead of storing:
+
+"I know Python programming."
+
+we convert it into something like:
+
+[0.18, -0.42, 0.91, 0.07, ...]
+
+This list of numbers is called an embedding vector.
+
+The exact numbers don't matter.
+
+What matters is:
+
+Sentences with similar meanings produce vectors that are close together.
+
+Visual Idea
+
+Imagine a huge 3D space.
+
+                Java
+
+                 ●
+
+        Python Developer ●
+
+   Python Programming ●
+
+                      JavaScript ●
+
+Python-related sentences end up close together.
+
+Java-related sentences end up somewhere else.
+
+In reality, embeddings are usually hundreds or thousands of dimensions, not just 3.
+
+Who Creates the Embeddings?
+
+Not the LLM.
+
+A separate embedding model does.
+
+Examples:
+
+BAAI BGE
+Jina Embeddings
+Nomic Embed
+OpenAI Embeddings
+Sentence Transformers
+
+Each takes text as input and outputs a vector.
