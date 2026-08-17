@@ -1,0 +1,89 @@
+Top-K always returns something, even when nothing is actually relevant.
+
+Example
+
+User asks:
+How does FastAPI dependency injection work?
+
+Suppose ChromaDB returns:
+| Rank | Document                     | Distance |
+| ---: | ---------------------------- | -------: |
+|    1 | Docker packages applications |     1.72 |
+|    2 | PostgreSQL is a database     |     1.81 |
+|    3 | ChromaDB stores embeddings   |     1.89 |
+
+
+The problem is that #1 is the best result among these three, but it's still not relevant enough to answer the question.
+
+If we blindly use Top-K:
+
+Question
+ ↓
+ChromaDB
+ ↓
+Top 3
+ ↓
+LLM
+
+the LLM may try to construct an answer anyway.
+
+
+What is a Similarity Threshold?
+
+A threshold is a minimum relevance requirement.
+
+Conceptually:
+
+if result is relevant enough:
+    send to LLM
+else:
+    say "I don't know"
+
+For example, if we had a similarity score:
+
+FastAPI       0.94  
+PostgreSQL    0.81  
+Docker        0.42  
+
+we might define:
+
+threshold = 0.70
+
+Then:
+
+0.94 ≥ 0.70 → keep
+0.81 ≥ 0.70 → keep
+0.42 < 0.70 → reject
+
+
+Top-K vs Threshold
+
+This distinction is extremely important.
+
+Top-K
+
+Answers:
+
+"Give me the best K candidates."
+
+n_results=5
+
+It will return five results even if they're terrible.
+
+Threshold
+
+Answers:
+
+"Is this result relevant enough to use?"
+
+So a production system might do:
+
+Vector DB
+   ↓
+Top 10 candidates
+   ↓
+Threshold filtering
+   ↓
+Only sufficiently relevant chunks
+   ↓
+LLM

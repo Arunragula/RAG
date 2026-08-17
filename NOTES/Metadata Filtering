@@ -1,0 +1,71 @@
+1. What is Metadata?
+
+Metadata is information about a document/chunk, rather than the actual document content.
+
+For example:
+
+Document:
+"FastAPI is a Python web framework..."
+
+Metadata:
+{
+    "file_name": "backend_notes.pdf",
+    "file_type": "pdf",
+    "folder": "D:/Projects/AI",
+    "author": "Arun",
+    "year": 2026
+}
+
+The actual text is:
+
+FastAPI is a Python web framework...
+
+Metadata describes it:
+
+file_name = backend_notes.pdf
+file_type = pdf
+folder = AI
+year = 2026
+
+2. Why do we need Metadata Filtering?
+
+Imagine your desktop has:
+
+Documents/
+│
+├── resume.pdf
+├── fastapi_notes.pdf
+├── docker_notes.pdf
+├── company_policy.pdf
+├── vacation.pdf
+├── finance.xlsx
+└── project.docx
+
+User asks:
+
+"What does the company policy say about leave?"
+
+Without filtering:
+
+All documents
+    ↓
+Embedding search
+    ↓
+Find relevant chunks
+
+With metadata:
+
+file_type = pdf
+folder = company
+
+we can narrow the search first.
+
+All documents
+     ↓
+Metadata filter
+     ↓
+Relevant subset
+     ↓
+Semantic search
+     ↓
+Top-K

@@ -1,0 +1,153 @@
+What is Reranking?
+
+Reranking means:
+
+Take the initial retrieved candidates and score them again using a more accurate model, then reorder them.
+
+Architecture:
+
+User Question
+      ↓
+Embedding
+      ↓
+Vector DB
+      ↓
+Top 10 candidates
+      ↓
+Reranker 
+      ↓
+Best 3
+      ↓
+LLM
+
+2. Why do we need it?
+
+Suppose the user asks:
+
+"How does FastAPI authentication work?"
+
+Vector search returns:
+
+| Initial rank | Chunk                                      | Vector score |
+| -----------: | ------------------------------------------ | -----------: |
+|            1 | FastAPI is a Python framework              |         0.91 |
+|            2 | FastAPI authentication uses OAuth2         |         0.89 |
+|            3 | FastAPI supports dependency injection      |         0.87 |
+|            4 | FastAPI can handle requests asynchronously |         0.86 |
+
+
+Vector search thinks #1 is the best match.
+
+But for this specific question, #2 contains the actual answer.
+
+A reranker can reconsider the relationship between:
+
+Question:
+How does FastAPI authentication work?
+
+
+Candidate:
+FastAPI authentication uses OAuth2.
+
+and assign it a higher relevance score.
+
+3. Embedding Model vs Reranker
+
+This distinction is important.
+
+Embedding model
+
+Converts:
+
+text → vector
+
+and enables fast retrieval.
+
+Example:
+
+all-MiniLM-L6-v2
+BGE
+E5
+Reranker
+
+Takes:
+
+question + document
+
+and directly estimates their relevance.
+
+Conceptually:
+
+Question ─────┐
+              ├──→ Reranker → relevance score
+Document ─────┘
+
+It doesn't necessarily create the vectors used for your initial search.
+
+4. Why not use the reranker for everything?
+
+Because reranking is generally more computationally expensive.
+
+Imagine:
+
+1,000,000 documents
+
+You don't want to compare:
+
+Question × 1,000,000 documents
+
+with an expensive model.
+
+Instead:
+
+1,000,000 documents
+       ↓
+Vector search
+       ↓
+Top 20
+       ↓
+Reranker
+       ↓
+Top 5
+
+Vector search gives us speed.
+
+Reranking gives us precision.
+
+5. Two-stage retrieval
+
+This is a very common production architecture:
+
+              1,000,000 documents
+                       │
+                       ▼
+              ┌─────────────────┐
+              │ Vector Retrieval │
+              └────────┬────────┘
+                       │
+                    Top 20
+                       │
+                       ▼
+              ┌─────────────────┐
+              │    Reranker     │
+              └────────┬────────┘
+                       │
+                    Top 5
+                       │
+                       ▼
+                      LLM
+
+6. Popular Rerankers
+
+You'll encounter models such as:
+
+BGE Reranker
+Cohere Rerank
+Cross-Encoder models
+Jina Reranker
+
+For your local desktop assistant, a local cross-encoder/BGE reranker can eventually be useful.
+
+But don't implement one yet.
+
+First understand the architecture.

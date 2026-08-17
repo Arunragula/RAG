@@ -1,0 +1,208 @@
+1. The problem with pure semantic search
+
+Suppose your document contains:
+
+FastAPI version 0.115.6
+
+User asks:
+
+"What is FastAPI 0.115.6?"
+
+A semantic embedding search might understand the general meaning of the question, but exact identifiers and numbers can be better handled by keyword search.
+
+For example:
+
+JWT_SECRET_KEY
+GPT-5.6
+ERROR_500
+user_id=12345
+
+These are very specific strings.
+
+Semantic search isn't always the best tool for exact matching.
+
+2. Keyword Search
+
+Traditional search looks for matching terms.
+
+For example:
+
+Query:
+"FastAPI JWT authentication"
+
+Keyword search looks for:
+
+FastAPI
+JWT
+authentication
+
+Common techniques include:
+
+BM25
+TF-IDF
+inverted indexes
+full-text search
+
+BM25 is particularly common in information retrieval.
+
+3. Semantic Search
+
+Your current approach:
+
+Query
+ ↓
+Embedding
+ ↓
+Vector DB
+ ↓
+Similarity
+
+It can understand:
+
+"car"
+
+and potentially retrieve:
+
+"automobile"
+
+even without the exact word car.
+
+That's its strength.
+
+4. Hybrid Search combines both
+
+Instead of choosing:
+
+Keyword OR Semantic
+
+we use:
+
+Keyword Search
+       +
+Semantic Search
+       ↓
+Combined ranking
+
+Example:
+
+User:
+"FastAPI JWT authentication"
+Keyword search
+Document A → 0.95
+Document B → 0.72
+Document C → 0.30
+Semantic search
+Document A → 0.80
+Document B → 0.91
+Document C → 0.85
+
+We combine the signals.
+
+Conceptually:
+
+final_score =
+    α × semantic_score
+    +
+    (1-α) × keyword_score
+
+Where α controls how much weight we give semantic search.
+
+5. Why Hybrid Search is powerful
+
+Consider these two queries.
+
+Query A
+
+"How do I authenticate users?"
+
+Semantic search is excellent because the user doesn't necessarily use the exact terminology from the document.
+
+"How do I authenticate users?"
+        ↓
+"OAuth2 authentication implementation"
+
+Semantic search can connect them.
+
+Query B
+
+"Find JWT_SECRET_KEY"
+
+Exact keyword matching is extremely useful.
+
+You don't want semantic similarity to decide that:
+
+JWT_SECRET_KEY
+
+is similar to:
+
+DATABASE_PASSWORD
+
+You want the exact identifier.
+
+6. For your desktop assistant
+
+Hybrid search is particularly interesting.
+
+Suppose you ask:
+
+"Find my FastAPI JWT project."
+
+Your system can use:
+
+Filename/path search
+       +
+Keyword search
+       +
+Semantic search
+       ↓
+Combined ranking
+
+It could find:
+
+C:\Projects\backend_api\
+C:\Projects\fastapi_auth\
+C:\Projects\my_api\
+
+even if the folder isn't literally named FastAPI.
+
+7. The bigger RAG architecture
+
+You're now building a much more sophisticated retrieval system:
+
+                         Query
+                           │
+                           ▼
+                    Metadata Filter
+                           │
+              ┌────────────┴────────────┐
+              ▼                         ▼
+        Keyword Search            Vector Search
+              │                         │
+              └────────────┬────────────┘
+                           ▼
+                     Hybrid Ranking
+                           │
+                           ▼
+                         Top-K
+                           │
+                           ▼
+                       Reranker
+                           │
+                           ▼
+                    Context Selection
+                           │
+                           ▼
+                          LLM
+
+This is much closer to how serious search/RAG systems are designed.
+
+One distinction to remember
+
+You now have three different mechanisms:
+
+Technique	Main purpose
+Metadata filtering	Where should I search?
+Keyword search	Does this exact term occur?
+Semantic search	What has similar meaning?
+Hybrid search	Combine exact + semantic matching
+Reranking	Which candidates are actually most relevant?

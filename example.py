@@ -1,9 +1,9 @@
 from sentence_transformers import SentenceTransformer
 import chromadb
-
+import ollama 
 model = SentenceTransformer('all-MiniLM-L6-v2')
 
-client= chromadb.PersistentClient(path="./chroma.db1")
+client= chromadb.PersistentClient(path="./chroma.db")
 collection = client.get_or_create_collection(name="resumes")
 
 documents = [
@@ -59,4 +59,14 @@ Question:
 Answer:
 """
 
-print(prompt)
+response = ollama.chat(
+    model="qwen2.5:0.5b",
+    messages=[
+        {
+            "role": "user",
+            "content": prompt
+        }
+    ]
+)
+
+print(response["message"]["content"])
