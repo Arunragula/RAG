@@ -26,12 +26,20 @@ def get_chunks():
 @app.post("/ingest")
 def store_embeds():
     text= load_file(FILE_PATH)
-    chunks= create_chunks(text,chunk_size=500,chunk_overlap=50)
+    chunks= create_chunks(text)
+    # print("Total chunks:", len(chunks))
+
+    # for i, chunk in enumerate(chunks):
+    #     print("\n" + "=" * 50)
+        
+    #     print("=" * 50)
+    #     print(chunk[:300])
     embeddings= create_embeddings(chunks)
 
     store_chunks(
         chunks,
-        embeddings
+        embeddings,
+        
     )
     return {
         "message": "Document successfully ingested",
