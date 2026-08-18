@@ -1,0 +1,348 @@
+RAG PRACTICE DOCUMENT - EDITION 1
+================================================================================
+
+FastAPI
+-------
+FastAPI is a modern Python web framework designed for building APIs quickly and efficiently. It uses Python type hints to validate request data and generate documentation automatically. FastAPI applications commonly define routes for HTTP methods such as GET, POST, PUT, PATCH, and DELETE. A typical application starts by creating a FastAPI object and then adding path operation functions. Developers often run FastAPI applications with an ASGI server such as Uvicorn.
+
+FastAPI supports asynchronous programming through async and await. Asynchronous endpoints are useful when an application spends time waiting for network requests, databases, external services, or other I/O operations. FastAPI also provides dependency injection, which allows reusable functions to provide authentication information, database sessions, configuration, and other resources to route handlers. Request bodies are commonly represented with Pydantic models, which provide validation and serialization.
+
+Authentication and authorization are common requirements in backend applications. FastAPI provides utilities that can be combined with OAuth2, bearer tokens, JWTs, and other authentication mechanisms. A production application should protect secrets, validate tokens, handle errors safely, and avoid exposing sensitive information in API responses.
+
+PostgreSQL
+----------
+PostgreSQL is an open-source relational database management system. It stores structured information in tables consisting of rows and columns. Applications communicate with PostgreSQL using SQL queries or database libraries and object-relational mappers. PostgreSQL supports transactions, indexes, constraints, foreign keys, joins, views, and many advanced database features.
+
+A backend application may use PostgreSQL to store users, products, orders, application settings, audit records, and other persistent information. A database connection should normally be managed carefully so that connections are reused efficiently and closed correctly. Connection pooling can improve performance by avoiding the cost of opening a completely new database connection for every request.
+
+Indexes can make queries faster by allowing the database to locate matching rows without scanning every row in a table. However, indexes also consume storage and can increase the cost of writes because indexes must be updated when data changes. Database design therefore requires balancing query performance, storage, and write performance.
+
+Docker
+------
+Docker is a platform used to package and run applications in isolated containers. A Docker image contains the application code and the dependencies required to run it. A container is a running instance of an image. Containers provide process isolation while sharing the host operating system kernel.
+
+A Dockerfile describes how an image should be built. It can specify a base image, working directory, copied files, installed dependencies, environment variables, exposed ports, and the command used to start the application. Docker Compose can be used to define multiple services such as an API, database, cache, and worker in a YAML configuration.
+
+Container storage is normally ephemeral. If application data must survive container removal, developers commonly use Docker volumes or bind mounts. Volumes are managed by Docker, while bind mounts connect a container to a directory on the host machine. Persistent storage is especially important for databases and uploaded files.
+
+Python
+------
+Python is a high-level programming language commonly used for web development, automation, data engineering, machine learning, and artificial intelligence. Python emphasizes readable syntax and provides a large standard library as well as a large ecosystem of third-party packages.
+
+A Python project often uses a virtual environment so that its dependencies are isolated from other projects. Packages can be installed with pip. Modern Python projects may also use pyproject.toml to describe project metadata, dependencies, build configuration, and tool configuration.
+
+Functions allow code to be divided into reusable units. Classes can represent objects and encapsulate data and behavior. Python also supports modules and packages, which help developers organize larger applications. Exception handling with try, except, else, and finally allows programs to respond to errors without immediately terminating.
+
+RAG
+---
+Retrieval-Augmented Generation, commonly called RAG, is an architecture that combines information retrieval with a large language model. Instead of asking an LLM to answer entirely from its pretrained knowledge, a RAG system first searches an external knowledge source and provides relevant information to the model as context.
+
+A typical RAG pipeline starts with documents. Documents are extracted and divided into smaller chunks. Each chunk is converted into an embedding vector by an embedding model. The vectors and associated information are stored in a vector database. When a user asks a question, the question is also converted into an embedding. The vector database searches for chunks that are semantically similar to the query.
+
+The retrieved chunks are then placed into a prompt together with the user's question. The LLM generates an answer using the supplied context. A well-designed system can instruct the model to say that it does not know when the required information is absent from the retrieved documents. RAG can reduce unsupported answers, but it does not guarantee that hallucinations will never occur.
+
+Chunking is important because a very large document should not normally be represented by one single embedding. Smaller chunks allow the retrieval system to locate specific pieces of information. Chunk overlap can preserve information that crosses chunk boundaries. The appropriate chunk size depends on the document structure and application.
+
+Retrieval quality can be improved with metadata filtering, hybrid search, query transformation, and reranking. Metadata can identify the source file, page, document type, folder, author, or date. Hybrid search combines keyword-based retrieval with semantic vector search. Query transformation creates improved or multiple search queries. Reranking evaluates retrieved candidates again to produce a better ordering.
+
+RAG systems should also be evaluated. Retrieval metrics can measure whether relevant chunks are found, while generation evaluation can measure whether the final answer is supported by the retrieved context. A system should be tested with representative questions rather than judged from a few successful examples.
+
+Embeddings
+----------
+An embedding is a numerical representation of information. An embedding model maps text or another type of input into a vector containing many numerical dimensions. Texts with related semantic meaning can often produce vectors that are close according to an appropriate similarity or distance measure.
+
+Sentence embedding models are useful for semantic search because they represent larger units of meaning rather than treating every word independently. Different embedding models produce vectors with different dimensions and different numerical values. A vector from one embedding model should not be directly compared with a vector produced by a different embedding model unless the system was specifically designed for that comparison.
+
+Cosine similarity measures the angle between vectors and is commonly used for semantic similarity. Distance metrics can instead express how far apart two vectors are. The meaning of a distance depends on the metric used by the vector index. For example, with a distance metric where smaller values indicate greater similarity, a smaller distance represents a better match.
+
+FAISS is a library for efficient similarity search and clustering of dense vectors. It is not a complete database system in the same sense as a full production vector database. ChromaDB is a vector database that can store embeddings along with documents and metadata and provide retrieval operations.
+
+Machine Learning
+----------------
+Machine learning is a field of artificial intelligence in which algorithms learn patterns from data. Supervised learning uses labeled examples to learn a mapping from inputs to outputs. Classification predicts categories, while regression predicts numerical values. Unsupervised learning works with data without target labels and can be used for clustering or dimensionality reduction.
+
+A machine learning workflow commonly includes data collection, cleaning, exploratory analysis, feature preparation, model training, validation, evaluation, and deployment. Training performance alone is not enough because a model can memorize training examples and perform poorly on unseen data. This problem is known as overfitting.
+
+Evaluation metrics depend on the task. Classification can use accuracy, precision, recall, F1 score, ROC-AUC, and other measures. Regression can use mean absolute error, mean squared error, root mean squared error, or R-squared. A good evaluation strategy should reflect the actual business or engineering objective.
+
+MLOps
+-----
+MLOps applies software engineering and operations practices to machine learning systems. It includes reproducible training, experiment tracking, model versioning, deployment, monitoring, and maintenance. A machine learning model that works in a notebook is not automatically a reliable production service.
+
+A production ML system may contain data pipelines, feature processing, model training, model serving, monitoring, and retraining workflows. Containers can package model-serving applications and their dependencies. CI/CD pipelines can automate testing and deployment. Monitoring can detect changes in data distributions, model performance, latency, failures, and resource usage.
+
+Model maintenance is important because real-world data changes over time. A model may degrade when the distribution of new inputs differs from the data used during training. Retraining and evaluation processes should therefore be designed before the initial deployment.
+
+Software Engineering
+--------------------
+Good software engineering involves organizing code so that it is understandable, testable, maintainable, and deployable. A project structure separates responsibilities into modules instead of placing every operation into one large script.
+
+Configuration such as database URLs, API keys, and secret keys should not normally be hard-coded into source files. Environment variables and configuration management systems can be used to provide environment-specific settings. Secrets should be protected and should not be committed to public repositories.
+
+Testing is another important part of software engineering. Unit tests verify small pieces of functionality, integration tests verify interactions between components, and end-to-end tests verify complete workflows. Logging provides information about application behavior and is useful when diagnosing production problems.
+
+Version control systems such as Git allow developers to track changes, create branches, review modifications, and collaborate. A clean commit history can make debugging and collaboration easier.
+
+
+
+
+RAG PRACTICE DOCUMENT - EDITION 2
+================================================================================
+
+FastAPI
+-------
+FastAPI is a modern Python web framework designed for building APIs quickly and efficiently. It uses Python type hints to validate request data and generate documentation automatically. FastAPI applications commonly define routes for HTTP methods such as GET, POST, PUT, PATCH, and DELETE. A typical application starts by creating a FastAPI object and then adding path operation functions. Developers often run FastAPI applications with an ASGI server such as Uvicorn.
+
+FastAPI supports asynchronous programming through async and await. Asynchronous endpoints are useful when an application spends time waiting for network requests, databases, external services, or other I/O operations. FastAPI also provides dependency injection, which allows reusable functions to provide authentication information, database sessions, configuration, and other resources to route handlers. Request bodies are commonly represented with Pydantic models, which provide validation and serialization.
+
+Authentication and authorization are common requirements in backend applications. FastAPI provides utilities that can be combined with OAuth2, bearer tokens, JWTs, and other authentication mechanisms. A production application should protect secrets, validate tokens, handle errors safely, and avoid exposing sensitive information in API responses.
+
+PostgreSQL
+----------
+PostgreSQL is an open-source relational database management system. It stores structured information in tables consisting of rows and columns. Applications communicate with PostgreSQL using SQL queries or database libraries and object-relational mappers. PostgreSQL supports transactions, indexes, constraints, foreign keys, joins, views, and many advanced database features.
+
+A backend application may use PostgreSQL to store users, products, orders, application settings, audit records, and other persistent information. A database connection should normally be managed carefully so that connections are reused efficiently and closed correctly. Connection pooling can improve performance by avoiding the cost of opening a completely new database connection for every request.
+
+Indexes can make queries faster by allowing the database to locate matching rows without scanning every row in a table. However, indexes also consume storage and can increase the cost of writes because indexes must be updated when data changes. Database design therefore requires balancing query performance, storage, and write performance.
+
+Docker
+------
+Docker is a platform used to package and run applications in isolated containers. A Docker image contains the application code and the dependencies required to run it. A container is a running instance of an image. Containers provide process isolation while sharing the host operating system kernel.
+
+A Dockerfile describes how an image should be built. It can specify a base image, working directory, copied files, installed dependencies, environment variables, exposed ports, and the command used to start the application. Docker Compose can be used to define multiple services such as an API, database, cache, and worker in a YAML configuration.
+
+Container storage is normally ephemeral. If application data must survive container removal, developers commonly use Docker volumes or bind mounts. Volumes are managed by Docker, while bind mounts connect a container to a directory on the host machine. Persistent storage is especially important for databases and uploaded files.
+
+Python
+------
+Python is a high-level programming language commonly used for web development, automation, data engineering, machine learning, and artificial intelligence. Python emphasizes readable syntax and provides a large standard library as well as a large ecosystem of third-party packages.
+
+A Python project often uses a virtual environment so that its dependencies are isolated from other projects. Packages can be installed with pip. Modern Python projects may also use pyproject.toml to describe project metadata, dependencies, build configuration, and tool configuration.
+
+Functions allow code to be divided into reusable units. Classes can represent objects and encapsulate data and behavior. Python also supports modules and packages, which help developers organize larger applications. Exception handling with try, except, else, and finally allows programs to respond to errors without immediately terminating.
+
+RAG
+---
+Retrieval-Augmented Generation, commonly called RAG, is an architecture that combines information retrieval with a large language model. Instead of asking an LLM to answer entirely from its pretrained knowledge, a RAG system first searches an external knowledge source and provides relevant information to the model as context.
+
+A typical RAG pipeline starts with documents. Documents are extracted and divided into smaller chunks. Each chunk is converted into an embedding vector by an embedding model. The vectors and associated information are stored in a vector database. When a user asks a question, the question is also converted into an embedding. The vector database searches for chunks that are semantically similar to the query.
+
+The retrieved chunks are then placed into a prompt together with the user's question. The LLM generates an answer using the supplied context. A well-designed system can instruct the model to say that it does not know when the required information is absent from the retrieved documents. RAG can reduce unsupported answers, but it does not guarantee that hallucinations will never occur.
+
+Chunking is important because a very large document should not normally be represented by one single embedding. Smaller chunks allow the retrieval system to locate specific pieces of information. Chunk overlap can preserve information that crosses chunk boundaries. The appropriate chunk size depends on the document structure and application.
+
+Retrieval quality can be improved with metadata filtering, hybrid search, query transformation, and reranking. Metadata can identify the source file, page, document type, folder, author, or date. Hybrid search combines keyword-based retrieval with semantic vector search. Query transformation creates improved or multiple search queries. Reranking evaluates retrieved candidates again to produce a better ordering.
+
+RAG systems should also be evaluated. Retrieval metrics can measure whether relevant chunks are found, while generation evaluation can measure whether the final answer is supported by the retrieved context. A system should be tested with representative questions rather than judged from a few successful examples.
+
+Embeddings
+----------
+An embedding is a numerical representation of information. An embedding model maps text or another type of input into a vector containing many numerical dimensions. Texts with related semantic meaning can often produce vectors that are close according to an appropriate similarity or distance measure.
+
+Sentence embedding models are useful for semantic search because they represent larger units of meaning rather than treating every word independently. Different embedding models produce vectors with different dimensions and different numerical values. A vector from one embedding model should not be directly compared with a vector produced by a different embedding model unless the system was specifically designed for that comparison.
+
+Cosine similarity measures the angle between vectors and is commonly used for semantic similarity. Distance metrics can instead express how far apart two vectors are. The meaning of a distance depends on the metric used by the vector index. For example, with a distance metric where smaller values indicate greater similarity, a smaller distance represents a better match.
+
+FAISS is a library for efficient similarity search and clustering of dense vectors. It is not a complete database system in the same sense as a full production vector database. ChromaDB is a vector database that can store embeddings along with documents and metadata and provide retrieval operations.
+
+Machine Learning
+----------------
+Machine learning is a field of artificial intelligence in which algorithms learn patterns from data. Supervised learning uses labeled examples to learn a mapping from inputs to outputs. Classification predicts categories, while regression predicts numerical values. Unsupervised learning works with data without target labels and can be used for clustering or dimensionality reduction.
+
+A machine learning workflow commonly includes data collection, cleaning, exploratory analysis, feature preparation, model training, validation, evaluation, and deployment. Training performance alone is not enough because a model can memorize training examples and perform poorly on unseen data. This problem is known as overfitting.
+
+Evaluation metrics depend on the task. Classification can use accuracy, precision, recall, F1 score, ROC-AUC, and other measures. Regression can use mean absolute error, mean squared error, root mean squared error, or R-squared. A good evaluation strategy should reflect the actual business or engineering objective.
+
+MLOps
+-----
+MLOps applies software engineering and operations practices to machine learning systems. It includes reproducible training, experiment tracking, model versioning, deployment, monitoring, and maintenance. A machine learning model that works in a notebook is not automatically a reliable production service.
+
+A production ML system may contain data pipelines, feature processing, model training, model serving, monitoring, and retraining workflows. Containers can package model-serving applications and their dependencies. CI/CD pipelines can automate testing and deployment. Monitoring can detect changes in data distributions, model performance, latency, failures, and resource usage.
+
+Model maintenance is important because real-world data changes over time. A model may degrade when the distribution of new inputs differs from the data used during training. Retraining and evaluation processes should therefore be designed before the initial deployment.
+
+Software Engineering
+--------------------
+Good software engineering involves organizing code so that it is understandable, testable, maintainable, and deployable. A project structure separates responsibilities into modules instead of placing every operation into one large script.
+
+Configuration such as database URLs, API keys, and secret keys should not normally be hard-coded into source files. Environment variables and configuration management systems can be used to provide environment-specific settings. Secrets should be protected and should not be committed to public repositories.
+
+Testing is another important part of software engineering. Unit tests verify small pieces of functionality, integration tests verify interactions between components, and end-to-end tests verify complete workflows. Logging provides information about application behavior and is useful when diagnosing production problems.
+
+Version control systems such as Git allow developers to track changes, create branches, review modifications, and collaborate. A clean commit history can make debugging and collaboration easier.
+
+
+
+
+RAG PRACTICE DOCUMENT - EDITION 3
+================================================================================
+
+FastAPI
+-------
+FastAPI is a modern Python web framework designed for building APIs quickly and efficiently. It uses Python type hints to validate request data and generate documentation automatically. FastAPI applications commonly define routes for HTTP methods such as GET, POST, PUT, PATCH, and DELETE. A typical application starts by creating a FastAPI object and then adding path operation functions. Developers often run FastAPI applications with an ASGI server such as Uvicorn.
+
+FastAPI supports asynchronous programming through async and await. Asynchronous endpoints are useful when an application spends time waiting for network requests, databases, external services, or other I/O operations. FastAPI also provides dependency injection, which allows reusable functions to provide authentication information, database sessions, configuration, and other resources to route handlers. Request bodies are commonly represented with Pydantic models, which provide validation and serialization.
+
+Authentication and authorization are common requirements in backend applications. FastAPI provides utilities that can be combined with OAuth2, bearer tokens, JWTs, and other authentication mechanisms. A production application should protect secrets, validate tokens, handle errors safely, and avoid exposing sensitive information in API responses.
+
+PostgreSQL
+----------
+PostgreSQL is an open-source relational database management system. It stores structured information in tables consisting of rows and columns. Applications communicate with PostgreSQL using SQL queries or database libraries and object-relational mappers. PostgreSQL supports transactions, indexes, constraints, foreign keys, joins, views, and many advanced database features.
+
+A backend application may use PostgreSQL to store users, products, orders, application settings, audit records, and other persistent information. A database connection should normally be managed carefully so that connections are reused efficiently and closed correctly. Connection pooling can improve performance by avoiding the cost of opening a completely new database connection for every request.
+
+Indexes can make queries faster by allowing the database to locate matching rows without scanning every row in a table. However, indexes also consume storage and can increase the cost of writes because indexes must be updated when data changes. Database design therefore requires balancing query performance, storage, and write performance.
+
+Docker
+------
+Docker is a platform used to package and run applications in isolated containers. A Docker image contains the application code and the dependencies required to run it. A container is a running instance of an image. Containers provide process isolation while sharing the host operating system kernel.
+
+A Dockerfile describes how an image should be built. It can specify a base image, working directory, copied files, installed dependencies, environment variables, exposed ports, and the command used to start the application. Docker Compose can be used to define multiple services such as an API, database, cache, and worker in a YAML configuration.
+
+Container storage is normally ephemeral. If application data must survive container removal, developers commonly use Docker volumes or bind mounts. Volumes are managed by Docker, while bind mounts connect a container to a directory on the host machine. Persistent storage is especially important for databases and uploaded files.
+
+Python
+------
+Python is a high-level programming language commonly used for web development, automation, data engineering, machine learning, and artificial intelligence. Python emphasizes readable syntax and provides a large standard library as well as a large ecosystem of third-party packages.
+
+A Python project often uses a virtual environment so that its dependencies are isolated from other projects. Packages can be installed with pip. Modern Python projects may also use pyproject.toml to describe project metadata, dependencies, build configuration, and tool configuration.
+
+Functions allow code to be divided into reusable units. Classes can represent objects and encapsulate data and behavior. Python also supports modules and packages, which help developers organize larger applications. Exception handling with try, except, else, and finally allows programs to respond to errors without immediately terminating.
+
+RAG
+---
+Retrieval-Augmented Generation, commonly called RAG, is an architecture that combines information retrieval with a large language model. Instead of asking an LLM to answer entirely from its pretrained knowledge, a RAG system first searches an external knowledge source and provides relevant information to the model as context.
+
+A typical RAG pipeline starts with documents. Documents are extracted and divided into smaller chunks. Each chunk is converted into an embedding vector by an embedding model. The vectors and associated information are stored in a vector database. When a user asks a question, the question is also converted into an embedding. The vector database searches for chunks that are semantically similar to the query.
+
+The retrieved chunks are then placed into a prompt together with the user's question. The LLM generates an answer using the supplied context. A well-designed system can instruct the model to say that it does not know when the required information is absent from the retrieved documents. RAG can reduce unsupported answers, but it does not guarantee that hallucinations will never occur.
+
+Chunking is important because a very large document should not normally be represented by one single embedding. Smaller chunks allow the retrieval system to locate specific pieces of information. Chunk overlap can preserve information that crosses chunk boundaries. The appropriate chunk size depends on the document structure and application.
+
+Retrieval quality can be improved with metadata filtering, hybrid search, query transformation, and reranking. Metadata can identify the source file, page, document type, folder, author, or date. Hybrid search combines keyword-based retrieval with semantic vector search. Query transformation creates improved or multiple search queries. Reranking evaluates retrieved candidates again to produce a better ordering.
+
+RAG systems should also be evaluated. Retrieval metrics can measure whether relevant chunks are found, while generation evaluation can measure whether the final answer is supported by the retrieved context. A system should be tested with representative questions rather than judged from a few successful examples.
+
+Embeddings
+----------
+An embedding is a numerical representation of information. An embedding model maps text or another type of input into a vector containing many numerical dimensions. Texts with related semantic meaning can often produce vectors that are close according to an appropriate similarity or distance measure.
+
+Sentence embedding models are useful for semantic search because they represent larger units of meaning rather than treating every word independently. Different embedding models produce vectors with different dimensions and different numerical values. A vector from one embedding model should not be directly compared with a vector produced by a different embedding model unless the system was specifically designed for that comparison.
+
+Cosine similarity measures the angle between vectors and is commonly used for semantic similarity. Distance metrics can instead express how far apart two vectors are. The meaning of a distance depends on the metric used by the vector index. For example, with a distance metric where smaller values indicate greater similarity, a smaller distance represents a better match.
+
+FAISS is a library for efficient similarity search and clustering of dense vectors. It is not a complete database system in the same sense as a full production vector database. ChromaDB is a vector database that can store embeddings along with documents and metadata and provide retrieval operations.
+
+Machine Learning
+----------------
+Machine learning is a field of artificial intelligence in which algorithms learn patterns from data. Supervised learning uses labeled examples to learn a mapping from inputs to outputs. Classification predicts categories, while regression predicts numerical values. Unsupervised learning works with data without target labels and can be used for clustering or dimensionality reduction.
+
+A machine learning workflow commonly includes data collection, cleaning, exploratory analysis, feature preparation, model training, validation, evaluation, and deployment. Training performance alone is not enough because a model can memorize training examples and perform poorly on unseen data. This problem is known as overfitting.
+
+Evaluation metrics depend on the task. Classification can use accuracy, precision, recall, F1 score, ROC-AUC, and other measures. Regression can use mean absolute error, mean squared error, root mean squared error, or R-squared. A good evaluation strategy should reflect the actual business or engineering objective.
+
+MLOps
+-----
+MLOps applies software engineering and operations practices to machine learning systems. It includes reproducible training, experiment tracking, model versioning, deployment, monitoring, and maintenance. A machine learning model that works in a notebook is not automatically a reliable production service.
+
+A production ML system may contain data pipelines, feature processing, model training, model serving, monitoring, and retraining workflows. Containers can package model-serving applications and their dependencies. CI/CD pipelines can automate testing and deployment. Monitoring can detect changes in data distributions, model performance, latency, failures, and resource usage.
+
+Model maintenance is important because real-world data changes over time. A model may degrade when the distribution of new inputs differs from the data used during training. Retraining and evaluation processes should therefore be designed before the initial deployment.
+
+Software Engineering
+--------------------
+Good software engineering involves organizing code so that it is understandable, testable, maintainable, and deployable. A project structure separates responsibilities into modules instead of placing every operation into one large script.
+
+Configuration such as database URLs, API keys, and secret keys should not normally be hard-coded into source files. Environment variables and configuration management systems can be used to provide environment-specific settings. Secrets should be protected and should not be committed to public repositories.
+
+Testing is another important part of software engineering. Unit tests verify small pieces of functionality, integration tests verify interactions between components, and end-to-end tests verify complete workflows. Logging provides information about application behavior and is useful when diagnosing production problems.
+
+Version control systems such as Git allow developers to track changes, create branches, review modifications, and collaborate. A clean commit history can make debugging and collaboration easier.
+
+
+
+
+RAG PRACTICE DOCUMENT - EDITION 4
+================================================================================
+
+FastAPI
+-------
+FastAPI is a modern Python web framework designed for building APIs quickly and efficiently. It uses Python type hints to validate request data and generate documentation automatically. FastAPI applications commonly define routes for HTTP methods such as GET, POST, PUT, PATCH, and DELETE. A typical application starts by creating a FastAPI object and then adding path operation functions. Developers often run FastAPI applications with an ASGI server such as Uvicorn.
+
+FastAPI supports asynchronous programming through async and await. Asynchronous endpoints are useful when an application spends time waiting for network requests, databases, external services, or other I/O operations. FastAPI also provides dependency injection, which allows reusable functions to provide authentication information, database sessions, configuration, and other resources to route handlers. Request bodies are commonly represented with Pydantic models, which provide validation and serialization.
+
+Authentication and authorization are common requirements in backend applications. FastAPI provides utilities that can be combined with OAuth2, bearer tokens, JWTs, and other authentication mechanisms. A production application should protect secrets, validate tokens, handle errors safely, and avoid exposing sensitive information in API responses.
+
+PostgreSQL
+----------
+PostgreSQL is an open-source relational database management system. It stores structured information in tables consisting of rows and columns. Applications communicate with PostgreSQL using SQL queries or database libraries and object-relational mappers. PostgreSQL supports transactions, indexes, constraints, foreign keys, joins, views, and many advanced database features.
+
+A backend application may use PostgreSQL to store users, products, orders, application settings, audit records, and other persistent information. A database connection should normally be managed carefully so that connections are reused efficiently and closed correctly. Connection pooling can improve performance by avoiding the cost of opening a completely new database connection for every request.
+
+Indexes can make queries faster by allowing the database to locate matching rows without scanning every row in a table. However, indexes also consume storage and can increase the cost of writes because indexes must be updated when data changes. Database design therefore requires balancing query performance, storage, and write performance.
+
+Docker
+------
+Docker is a platform used to package and run applications in isolated containers. A Docker image contains the application code and the dependencies required to run it. A container is a running instance of an image. Containers provide process isolation while sharing the host operating system kernel.
+
+A Dockerfile describes how an image should be built. It can specify a base image, working directory, copied files, installed dependencies, environment variables, exposed ports, and the command used to start the application. Docker Compose can be used to define multiple services such as an API, database, cache, and worker in a YAML configuration.
+
+Container storage is normally ephemeral. If application data must survive container removal, developers commonly use Docker volumes or bind mounts. Volumes are managed by Docker, while bind mounts connect a container to a directory on the host machine. Persistent storage is especially important for databases and uploaded files.
+
+Python
+------
+Python is a high-level programming language commonly used for web development, automation, data engineering, machine learning, and artificial intelligence. Python emphasizes readable syntax and provides a large standard library as well as a large ecosystem of third-party packages.
+
+A Python project often uses a virtual environment so that its dependencies are isolated from other projects. Packages can be installed with pip. Modern Python projects may also use pyproject.toml to describe project metadata, dependencies, build configuration, and tool configuration.
+
+Functions allow code to be divided into reusable units. Classes can represent objects and encapsulate data and behavior. Python also supports modules and packages, which help developers organize larger applications. Exception handling with try, except, else, and finally allows programs to respond to errors without immediately terminating.
+
+RAG
+---
+Retrieval-Augmented Generation, commonly called RAG, is an architecture that combines information retrieval with a large language model. Instead of asking an LLM to answer entirely from its pretrained knowledge, a RAG system first searches an external knowledge source and provides relevant information to the model as context.
+
+A typical RAG pipeline starts with documents. Documents are extracted and divided into smaller chunks. Each chunk is converted into an embedding vector by an embedding model. The vectors and associated information are stored in a vector database. When a user asks a question, the question is also converted into an embedding. The vector database searches for chunks that are semantically similar to the query.
+
+The retrieved chunks are then placed into a prompt together with the user's question. The LLM generates an answer using the supplied context. A well-designed system can instruct the model to say that it does not know when the required information is absent from the retrieved documents. RAG can reduce unsupported answers, but it does not guarantee that hallucinations will never occur.
+
+Chunking is important because a very large document should not normally be represented by one single embedding. Smaller chunks allow the retrieval system to locate specific pieces of information. Chunk overlap can preserve information that crosses chunk boundaries. The appropriate chunk size depends on the document structure and application.
+
+Retrieval quality can be improved with metadata filtering, hybrid search, query transformation, and reranking. Metadata can identify the source file, page, document type, folder, author, or date. Hybrid search combines keyword-based retrieval with semantic vector search. Query transformation creates improved or multiple search queries. Reranking evaluates retrieved candidates again to produce a better ordering.
+
+RAG systems should also be evaluated. Retrieval metrics can measure whether relevant chunks are found, while generation evaluation can measure whether the final answer is supported by the retrieved context. A system should be tested with representative questions rather than judged from a few successful examples.
+
+Embeddings
+----------
+An embedding is a numerical representation of information. An embedding model maps text or another type of input into a vector containing many numerical dimensions. Texts with related semantic meaning can often produce vectors that are close according to an appropriate similarity or distance measure.
+
+Sentence embedding models are useful for semantic search because they represent larger units of meaning rather than treating every word independently. Different embedding models produce vectors with different dimensions and different numerical values. A vector from one embedding model should not be directly compared with a vector produced by a different embedding model unless the system was specifically designed for that comparison.
+
+Cosine similarity measures the angle between vectors and is commonly used for semantic similarity. Distance metrics can instead express how far apart two vectors are. The meaning of a distance depends on the metric used by the vector index. For example, with a distance metric where smaller values indicate greater similarity, a smaller distance represents a better match.
+
+FAISS is a library for efficient similarity search and clustering of dense vectors. It is not a complete database system in the same sense as a full production vector database. ChromaDB is a vector database that can store embeddings along with documents and metadata and provide retrieval operations.
+
+Machine Learning
+----------------
+Machine learning is a field of artificial intelligence in which algorithms learn patterns from data. Supervised learning uses labeled examples to learn a mapping from inputs to outputs. Classification predicts categories, while regression predicts numerical values. Unsupervised learning works with data without target labels and can be used for clustering or dimensionality reduction.
+
+A machine learning workflow commonly includes data collection, cleaning, exploratory analysis, feature preparation, model training, validation, evaluation, and deployment. Training performance alone is not enough because a model can memorize training examples and perform poorly on unseen data. This problem is known as overfitting.
+
+Evaluation metrics depend on the task. Classification can use accuracy, precision, recall, F1 score, ROC-AUC, and other measures. Regression can use mean absolute error, mean squared error, root mean squared error, or R-squared. A good evaluation strategy should reflect the actual business or engineering objective.
+
+MLOps
+-----
+MLOps applies software engineering and operations practices to machine learning systems. It includes reproducible training, experiment tracking, model versioning, deployment, monitoring, and maintenance. A machine learning model that works in a notebook is not automatically a reliable production service.
+
+A production ML system may contain data pipelines, feature processing, model training, model serving, monitoring, and retraining workflows. Containers can package model-serving applications and their dependencies. CI/CD pipelines can automate testing and deployment. Monitoring can detect changes in data distributions, model performance, latency, failures, and resource usage.
+
+Model maintenance is important because real-world data changes over time. A model may degrade when the distribution of new inputs differs from the data used during training. Retraining and evaluation processes should therefore be designed before the initial deployment.
+
+Software Engineering
+--------------------
+Good software engineering involves organizing code so that it is understandable, testable, maintainable, and deployable. A project structure separates responsibilities into modules instead of placing every operation into one large script.
+
+Configuration such as database URLs, API keys, and secret keys should not normally be hard-coded into source files. Environment variables and configuration management systems can be used to provide environment-specific settings. Secrets should be protected and should not be committed to public repositories.
+
+Testing is another important part of software engineering. Unit tests verify small pieces of functionality, integration tests verify interactions between components, and end-to-end tests verify complete workflows. Logging provides information about application behavior and is useful when diagnosing production problems.
+
+Version control systems such as Git allow developers to track changes, create branches, review modifications, and collaborate. A clean commit history can make debugging and collaboration easier.

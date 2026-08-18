@@ -43,30 +43,30 @@ context = "\n\n".join(retrieved_docs)
 
 # print(context)
 
-prompt = f"""
-You are a helpful assistant.
+# prompt = f"""
+# You are a helpful assistant.
 
-Answer the question using only the provided context.
-If the answer is not present in the context, say:
-"I don't know based on the provided documents."
+# Answer the question using only the provided context.
+# If the answer is not present in the context, say:
+# "I don't know based on the provided documents."
 
-Context:
-{context}
+# Context:
+# {context}
 
-Question:
-{query}
+# Question:
+# {query}
 
-Answer:
-"""
+# Answer:
+# """
 
-response = ollama.chat(
-    model="qwen2.5:0.5b",
-    messages=[
-        {
-            "role": "user",
-            "content": prompt
-        }
-    ]
-)
+# response = ollama.chat(
+#     model="qwen2.5:0.5b",
+#     messages=[
+#         {
+#             "role": "user",
+#             "content": prompt
+#         }
+#     ]
+# )
 
-print(response["message"]["content"])
+# print(response["message"]["content"])
