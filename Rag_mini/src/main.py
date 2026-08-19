@@ -4,6 +4,7 @@ from fastapi import FastAPI
 from embeder import create_embeddings
 from database import store_chunks
 from query import search
+from llm import generate_answer
 import uvicorn 
 FILE_PATH="/workspaces/RAG/Rag_mini/data/sample.txt"
 
@@ -48,12 +49,27 @@ def store_embeds():
     }
 @app.get("/search")
 def search_doc(query:str):
-    results = search(query, n_results=3)
+    # results = search(query, n_results=5)
+    context, retrieved_docs = search(query, n_results=5)
+
+    answer = generate_answer(
+        query,
+        context
+    )
+
     return {
-        "documents": results["documents"],
-        "distances": results["distances"],
-        "ids": results["ids"]
+        "query": query,
+        "retrieved_documents": retrieved_docs,
+        "answer": answer
     }
+
+
+    # return {
+    #     "documents": results["documents"],
+    #     "distances": results["distances"],
+    #     "ids": results["ids"]
+    # }
+
 
 if __name__ == "__main__":
     uvicorn.run(app, host="127.0.0.1", port=8000)
